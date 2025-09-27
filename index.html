@@ -1,0 +1,41 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resubmission Grade Calculator</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+  h1 { color: #333; }
+  input, button { padding: 8px; margin: 5px 0; }
+  .result { margin-top: 15px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>Resubmission Grade Calculator</h1>
+<p>Enter your original assignment score (0-100):</p>
+
+<input type="number" id="originalScore" min="0" max="100" placeholder="Original Score (%)">
+<button onclick="calculateNewGrade()">Calculate New Grade</button>
+
+<div class="result" id="result"></div>
+
+<script>
+function calculateNewGrade() {
+    let P = parseFloat(document.getElementById('originalScore').value);
+    if (isNaN(P) || P < 0 || P > 100) {
+        document.getElementById('result').textContent = "Please enter a valid score between 0 and 100.";
+        return;
+    }
+    
+    // Apply your formula: NewGrade = 50 + (P / 2)
+    let newGrade = 50 + (P / 2);
+    
+    document.getElementById('result').textContent = "Your resubmission grade is: " + newGrade.toFixed(1) + "%";
+}
+</script>
+
+</body>
+</html>
