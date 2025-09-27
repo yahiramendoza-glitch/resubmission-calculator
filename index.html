@@ -3,102 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resubmission Grade Calculator</title>
+<title>GoFormative and Mendoza Resubmission Policy</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  .container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    text-align: center;
-    width: 380px;
-  }
-  h1 { color: #333; margin-bottom: 20px; }
-  input {
-    padding: 10px;
-    width: 80%;
-    margin: 10px 0;
-    font-size: 16px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    text-align: center;
-  }
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 6px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    margin-top: 10px;
-  }
+  body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+  .container { background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); text-align: center; width: 450px; }
+  h1 { color: #333; margin-bottom: 20px; font-size: 22px; }
+  input { padding: 10px; width: 80%; margin: 10px 0; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; text-align: center; }
+  button { padding: 10px 20px; font-size: 16px; border-radius: 6px; border: none; background-color: #4CAF50; color: white; cursor: pointer; margin-top: 10px; }
   button:hover { background-color: #45a049; }
-  .result {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  .score-box {
-    margin-top: 10px;
-    padding: 12px;
-    border-radius: 6px;
-    background-color: #e7f3fe;
-    border: 1px solid #2196F3;
-  }
-  .explanation {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #555;
-  }
+  .result { margin-top: 20px; font-weight: bold; font-size: 18px; }
+  .explanation { margin-top: 10px; font-size: 14px; color: #555; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Resubmission Grade Calculator</h1>
-
-  <input type="number" id="originalScore" placeholder="First Submission Score (%)" min="0" max="100">
-  <input type="number" id="resubmissionScore" placeholder="Score Earned on Resubmission (%)" min="0" max="100">
+  <h1>GoFormative and Mendoza Resubmission Policy</h1>
+  <input type="number" id="originalScore" placeholder="Original Score (%)" min="0" max="100">
   <br>
-  <button onclick="calculateGrades()">Calculate New Grade</button>
+  <button onclick="calculateNewGrade()">Calculate New Grade</button>
 
   <div class="result" id="result"></div>
+  <div class="explanation" id="explanation"></div>
 </div>
 
 <script>
-function calculateGrades() {
-    // Read input values
+function calculateNewGrade() {
     let original = parseFloat(document.getElementById('originalScore').value);
-    let resub = parseFloat(document.getElementById('resubmissionScore').value);
 
-    // Validate inputs
-    if (isNaN(original) || original < 0 || original > 100 || 
-        isNaN(resub) || resub < 0 || resub > 100) {
-        document.getElementById('result').innerHTML = "Please enter valid scores (0-100).";
+    if (isNaN(original) || original < 0 || original > 100) {
+        alert("Please enter a valid score between 0 and 100.");
         return;
     }
 
-    // Calculate new grade (half points for resubmission)
-    let newGrade = 50 + (resub / 2);
+    let fraction = 0;
 
-    // Display results
-    document.getElementById('result').innerHTML = `
-      <div class="score-box">First Submission: ${original.toFixed(1)}%</div>
-      <div class="score-box">Resubmission Grade: ${newGrade.toFixed(1)}%</div>
-      <div class="explanation">
-        You didn’t get 100% because resubmissions only earn <strong>half the points</strong> from where you left off.
-      </div>
-    `;
+    // Determine fraction based on tiers
+    if (original <= 59) {
+        fraction = 1/2.85;       // ≈ 0.3509
+    } else if (original <= 68) {
+        fraction = 1/3;
+    } else if (original <= 78) {
+        fraction = 1/4;
+    } else if (original <= 88) {
+        fraction = 1/5;
+    } else if (original <= 98) {
+        fraction = 1/6;
+    } else {
+        fraction = 0; // 99 or 100, no extra points
+    }
+
+    let remaining = 100 - original;
+    let resubPoints = remaining * fraction;
+    let newGrade = original + resubPoints;
+
+    // Round to 2 decimal places
+    newGrade = Math.round(newGrade * 100) / 100;
+
+    document.getElementById('result').innerText = `New Grade: ${newGrade}%`;
+    document.getElementById('explanation').innerText = `Original: ${original}%, Tier fraction: ${fraction.toFixed(4)}, Points added: ${resubPoints.toFixed(2)}`;
 }
 </script>
 
