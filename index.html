@@ -1,4 +1,3 @@
-index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,36 +5,76 @@ index.html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resubmission Grade Calculator</title>
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
-  h1 { color: #333; }
-  input, button { padding: 8px; margin: 5px 0; }
-  .result { margin-top: 15px; font-weight: bold; }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 350px;
+  }
+  h1 { color: #333; margin-bottom: 20px; }
+  input {
+    padding: 10px;
+    width: 80%;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  button:hover { background-color: #45a049; }
+  .result {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .score-box {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #e7f3fe;
+    border: 1px solid #2196F3;
+  }
 </style>
 </head>
 <body>
 
-<h1>Resubmission Grade Calculator</h1>
-<p>Enter your original assignment score (0-100):</p>
+<div class="container">
+  <h1>Resubmission Grade Calculator</h1>
 
-<input type="number" id="originalScore" min="0" max="100" placeholder="Original Score (%)">
-<button onclick="calculateNewGrade()">Calculate New Grade</button>
+  <input type="number" id="originalScore" placeholder="First Submission Score (%)" min="0" max="100">
+  <input type="number" id="resubmissionScore" placeholder="Score Earned on Resubmission (%)" min="0" max="100">
+  <br>
+  <button onclick="calculateGrades()">Calculate New Grade</button>
 
-<div class="result" id="result"></div>
+  <div class="result" id="result"></div>
+</div>
 
 <script>
-function calculateNewGrade() {
-    let P = parseFloat(document.getElementById('originalScore').value);
-    if (isNaN(P) || P < 0 || P > 100) {
-        document.getElementById('result').textContent = "Please enter a valid score between 0 and 100.";
-        return;
-    }
-    
-    // Apply your formula: NewGrade = 50 + (P / 2)
-    let newGrade = 50 + (P / 2);
-    
-    document.getElementById('result').textContent = "Your resubmission grade is: " + newGrade.toFixed(1) + "%";
-}
-</script>
+function calculateGrades() {
+    let original = parseFloat(document.getElementById('originalScore').value);
+    let resub = parseFloat(document.getElementById('resubmissionScore').value);
 
-</body>
-</html>
+    if (isNaN(original) || original < 0 || original > 100 || 
+        isNaN(resub) || resub < 0 || resub > 100) {
+        document.g
